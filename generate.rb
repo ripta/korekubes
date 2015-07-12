@@ -42,6 +42,7 @@ main_config = {
       type:        'file',
       source:      "kubernetes-v#{KUBERNETES_VERSION}.tar.gz",
       destination: '/tmp/kubernetes.tar.gz'
+    },
     {
       type:        'file',
       source:      "services-v#{KUBERNETES_VERSION}.tar.gz",
