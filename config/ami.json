@@ -1,0 +1,26 @@
+{
+	"_meta": {
+    "comments": "These AMIs are HVM only.",
+    "url": "https://coreos.com/docs/running-coreos/cloud-providers/ec2/"
+  },
+  "images": {
+    "717.3.0": {
+      "_meta": {
+        "channel": "stable",
+        "released": "2015-07-10"
+      },
+      "us-east-1": "ami-6b1cd400",
+      "us-west-1": "ami-bf8477fb",
+      "us-west-2": "ami-f5a5a5c5"
+    },
+    "723.3.0": {
+      "_meta": {
+        "channel": "beta",
+        "released": "2015-07-10"
+      },
+      "us-east-1": "ami-f375bc98",
+      "us-west-1": "ami-ef9261ab",
+      "us-west-2": "ami-1ffbfb2f"
+    }
+  }
+}
