@@ -6,6 +6,7 @@ AWS_INSTANCE_TYPE  = 't2.micro'
 AWS_REGION         = 'us-west-2'
 COREOS_VERSION     = '717.3.0'
 KUBERNETES_VERSION = '0.21.1-1.0'
+OUTPUT_FILE        = 'korekube.json'
 
 require 'json'
 
@@ -63,6 +64,8 @@ main_config = {
   ]
 }
 
-File.open('korekube.json', 'w') do |f|
+File.open(OUTPUT_FILE, 'w') do |f|
   f.puts JSON.pretty_generate(main_config)
 end
+
+STDERR.puts "Generated #{OUTPUT_FILE}"
