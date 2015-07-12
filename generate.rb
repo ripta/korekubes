@@ -19,7 +19,7 @@ user_vars = {
   aws_region:        AWS_REGION,
   aws_ami_id:        coreos_ami(version: COREOS_VERSION, region: AWS_REGION),
   aws_instance_type: 't2.micro',
-  image_name:        "korekube v#{COREOS_VERSION}+#{KUBERNETES_VERSION} {{timestamp}}",
+  image_name:        "korekube (coreos-v#{COREOS_VERSION} kubernetes-v#{KUBERNETES_VERSION}) at {{timestamp}}",
   kubernetes_url:    "https://bintray.com/artifact/download/ripta/generic/kubernetes-v#{KUBERNETES_VERSION}.tar.gz"
 }
 
