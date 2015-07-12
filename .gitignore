@@ -1,3 +1,4 @@
 .bundle
+korekube.json
 vendor/cache
 vendor/ruby
