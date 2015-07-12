@@ -31,7 +31,9 @@ ami_builder = {
   source_ami:    user_var('aws_ami_id'),
   instance_type: user_var('aws_instance_type'),
   ssh_username:  'core',
-  ami_name:      user_var('image_name')
+  ami_name:      user_var('image_name'),
+  vpc_id:        'vpc-cec658ab',
+  subnet_id:     'subnet-3c802865'
 }
 
 main_config = {
