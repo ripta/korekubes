@@ -42,25 +42,9 @@ main_config = {
   'post-processors' => ['vagrant'],
   provisioners: [
     {
-      type:        'file',
-      source:      "kubernetes-v#{KUBERNETES_VERSION}.tar.gz",
-      destination: '/tmp/kubernetes.tar.gz'
-    },
-    {
-      type:        'file',
-      source:      "services-v#{KUBERNETES_VERSION}.tar.gz",
-      destination: '/tmp/services.tar.gz'
-    },
-    {
-      type:   'shell',
-      inline: [
-        'sleep 15',
-        'sudo mkdir -p /opt/bin',
-        'sudo tar zxf /tmp/kubernetes.tar.gz -C /opt/bin',
-        'sudo chmod +x /opt/bin/*',
-        'sudo chown root:root -R /opt/bin',
-        'sudo tar zxf /tmp/services.tar.gz -C /etc/systemd/system',
-        'rm -f /tmp/*.tar.gz'
+      type:    'shell',
+      scripts: [
+        'remote-scripts/kubernetes.sh'
       ]
     }
   ]
