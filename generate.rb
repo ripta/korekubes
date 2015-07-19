@@ -44,7 +44,8 @@ main_config = {
   'post-processors' => ['vagrant'],
   provisioners: [
     {
-      type:    'shell',
+      type: 'shell',
+      pause_before: '15s',
       scripts: [
         'remote-scripts/kubernetes.sh'
       ],
