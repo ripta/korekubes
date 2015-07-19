@@ -56,4 +56,4 @@ coreos:
       command: start
   update:
     group: stable
-    reboot-strategy: off
+    reboot-strategy: "best-effort"
