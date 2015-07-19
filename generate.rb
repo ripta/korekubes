@@ -43,11 +43,18 @@ main_config = {
   builders:  [ami_builder],
   'post-processors' => ['vagrant'],
   provisioners: [
+    upload_service('generate-serviceaccount-key.service'),
+    upload_service('kube-apiserver.service'),
+    upload_service('kube-controller-manager.service'),
+    upload_service('kube-kubelet.service'),
+    upload_service('kube-proxy.service'),
+    upload_service('kube-scheduler.service'),
     {
       type: 'shell',
       pause_before: '15s',
       scripts: [
-        'remote-scripts/kubernetes.sh'
+        'remote-scripts/kubernetes.sh',
+        'remote-scripts/services.sh'
       ],
       environment_vars: [
         "COREOS_VERSION=#{COREOS_VERSION}",
