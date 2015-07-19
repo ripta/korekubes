@@ -50,8 +50,8 @@ main_config = {
         'remote-scripts/kubernetes.sh'
       ],
       environment_vars: [
-        "COREOS_VERSION": COREOS_VERSION
-        "KUBERNETES_VERSION": KUBERNETES_VERSION
+        "COREOS_VERSION=#{COREOS_VERSION}",
+        "KUBERNETES_VERSION=#{KUBERNETES_VERSION}"
       ]
     }
   ]
