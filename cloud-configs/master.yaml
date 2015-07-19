@@ -55,5 +55,5 @@ coreos:
     - name: kube-scheduler.service
       command: start
   update:
-    group: alpha
+    group: stable
     reboot-strategy: off

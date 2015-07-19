@@ -38,5 +38,5 @@ coreos:
     - name: kube-kubelet.service
       command: start
   update:
-    group: alpha
+    group: stable
     reboot-strategy: off
