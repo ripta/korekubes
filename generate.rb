@@ -5,7 +5,7 @@
 AWS_INSTANCE_TYPE  = 't2.micro'
 AWS_REGION         = 'us-west-2'
 COREOS_VERSION     = '717.3.0'
-KUBERNETES_VERSION = '0.21.1-1.0'
+KUBERNETES_VERSION = '0.21.1'
 OUTPUT_FILE        = 'korekube.json'
 
 require 'json'
@@ -20,7 +20,8 @@ user_vars = {
   aws_ami_id:        coreos_ami(version: COREOS_VERSION, region: AWS_REGION),
   aws_instance_type: 't2.micro',
   image_name:        "korekube (coreos-v#{COREOS_VERSION} kubernetes-v#{KUBERNETES_VERSION}) at {{timestamp}}",
-  kubernetes_url:    "https://bintray.com/artifact/download/ripta/generic/kubernetes-v#{KUBERNETES_VERSION}.tar.gz"
+  kubernetes_url:    "https://bintray.com/artifact/download/ripta/generic/kubernetes-v#{KUBERNETES_VERSION}-1.0.tar.gz",
+  kubernetes_version:"v#{KUBERNETES_VERSION}"
 }
 
 ami_builder = {
