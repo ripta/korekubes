@@ -1,11 +1,11 @@
 [Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
-Requires=setup-network-environment.service etcd2.service generate-serviceaccount-key.service
-After=setup-network-environment.service etcd2.service generate-serviceaccount-key.service
+Requires=etcd2.service generate-serviceaccount-key.service
+After=etcd2.service generate-serviceaccount-key.service
 
 [Service]
-EnvironmentFile=/etc/network-environment
+EnvironmentFile=/etc/environment
 ExecStartPre=/opt/bin/wupiao 127.0.0.1:2379/v2/machines
 ExecStart=/opt/bin/kube-apiserver \
 --service_account_key_file=/opt/bin/kube-serviceaccount.key \
@@ -19,7 +19,7 @@ ExecStart=/opt/bin/kube-apiserver \
 --secure_port=6443 \
 --service-cluster-ip-range=10.100.0.0/16 \
 --etcd_servers=http://127.0.0.1:2379 \
---public_address_override=${DEFAULT_IPV4} \
+--bind-address=${COREOS_PRIVATE_IPV4} \
 --logtostderr=true
 Restart=always
 RestartSec=10
