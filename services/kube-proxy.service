@@ -7,7 +7,7 @@ After=setup-network-environment.service
 [Service]
 ExecStartPre=/opt/bin/wupiao <master-private-ip> 8080
 ExecStart=/opt/bin/kube-proxy \
-        --master=<master-private-ip>:8080 \
-        --logtostderr=true
+  --master=<master-private-ip>:8080 \
+  --logtostderr=true
 Restart=always
 RestartSec=10
