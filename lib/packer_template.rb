@@ -11,14 +11,6 @@ def quoted(name)
   "`#{name}`"
 end
 
-def upload_service(name)
-  {
-    type: 'file',
-    source: "services/#{name}",
-    destination: "/etc/systemd/system/#{name}"
-  }
-end
-
 # "{{user `name`}}""
 def user_var(name)
   var(:user, name.to_s)
