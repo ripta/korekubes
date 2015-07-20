@@ -1,2 +1,1 @@
-Originally from https://github.com/GoogleCloudPlatform/kubernetes/blob/v0.21.1/docs/getting-started-guides/coreos/cloud-configs/
-adapted for korekubes.
+Copied from https://github.com/GoogleCloudPlatform/kubernetes/blob/v0.21.1/docs/getting-started-guides/coreos/cloud-configs/
