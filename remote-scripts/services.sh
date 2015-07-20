@@ -1,4 +1,4 @@
 #!/bin/sh
 
-sudo mv /tmp/services/* /etc/systemd/system
+sudo mv /tmp/services/*.services /etc/systemd/system
 sudo chown -R root:root /etc/systemd/system
