@@ -6,7 +6,7 @@ After=kube-apiserver.service
 
 [Service]
 ExecStart=/opt/bin/kube-controller-manager \
---service_account_private_key_file=/opt/bin/kube-serviceaccount.key \
+--service-account-private-key-file=/opt/bin/kube-serviceaccount.key \
 --master=127.0.0.1:8080 \
 --logtostderr=true
 Restart=always
