@@ -1,4 +1,5 @@
 *.box
+*.sublime-*
 *.swp
 *.tar.gz
 .bundle
