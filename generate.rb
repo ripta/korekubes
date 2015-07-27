@@ -64,7 +64,7 @@ vmware_builder = {
     'coreos-install -d /dev/sda -C stable -c bootstrap.yml<enter>',
     'reboot<enter>'
   ],
-  shutdown_command:  'shutdown -P now',
+  shutdown_command:  'sudo shutdown -P now',
   skip_compaction:   false
 }
 
