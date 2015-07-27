@@ -49,11 +49,15 @@ vmware_builder = {
   iso_checksum_type: COREOS_ISO_CHECK.fetch(:type, 'none'),
   ssh_username:      'core',
   http_directory:    'bootstrap',
+  vmx_data: {
+    memsize: '1024',
+    numvcpus: '1'
+  },
   boot_wait:         '15s',
   boot_command: [
     'sudo -i<enter>',
     'systemctl stop sshd.socket<enter>',
-    'wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/boostrap.yml<enter>',
+    'wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/bootstrap.yml<enter>',
     'coreos-install -d /dev/sda -C stable -c bootstrap.yml<enter>',
     'reboot<enter>'
   ],
