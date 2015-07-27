@@ -5,6 +5,10 @@
 AWS_INSTANCE_TYPE  = 't2.micro'
 AWS_REGION         = 'us-west-2'
 COREOS_VERSION     = '717.3.0'
+COREOS_ISO_CHECK   = {
+  checksum: '39074d0233c48ca199b987a0944fdda2',
+  type:     'md5'
+}
 KUBERNETES_VERSION = '0.21.1'
 OUTPUT_FILE        = 'korekube.json'
 
@@ -38,9 +42,31 @@ ami_builder = {
   subnet_id:     user_var('subnet_id')
 }
 
+vmware_builder = {
+  type:              'vmware-iso',
+  iso_url:           "http://stable.release.core-os.net/amd64-usr/#{COREOS_VERSION}/coreos_production_iso_image.iso",
+  iso_checksum:      COREOS_ISO_CHECK.fetch(:checksum, ''),
+  iso_checksum_type: COREOS_ISO_CHECK.fetch(:type, 'none'),
+  ssh_username:      'core',
+  http_directory:    'bootstrap',
+  boot_wait:         '5s',
+  boot_command: [
+    'sudo -i<enter>',
+    'systemctl stop sshd.socket<enter>',
+    'wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.yml<enter>',
+    'coreos-install -d /dev/sda -C stable -c install.yml<enter>',
+    'reboot<enter>'
+  ],
+  shutdown_command:  'shutdown -P now',
+  skip_compaction:   false
+}
+
 main_config = {
   variables: user_vars,
-  builders:  [ami_builder],
+  builders:  [
+    ami_builder,
+    vmware_builder
+  ],
   'post-processors' => ['vagrant'],
   provisioners: [
     {
