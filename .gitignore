@@ -5,5 +5,6 @@
 .bundle
 build
 korekube.json
+packer_cache
 vendor/cache
 vendor/ruby
