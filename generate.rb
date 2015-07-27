@@ -53,8 +53,8 @@ vmware_builder = {
   boot_command: [
     'sudo -i<enter>',
     'systemctl stop sshd.socket<enter>',
-    'wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.yml<enter>',
-    'coreos-install -d /dev/sda -C stable -c install.yml<enter>',
+    'wget -LO http://{{ .HTTPIP }}:{{ .HTTPPort }}/boostrap.yml<enter>',
+    'coreos-install -d /dev/sda -C stable -c bootstrap.yml<enter>',
     'reboot<enter>'
   ],
   shutdown_command:  'shutdown -P now',
