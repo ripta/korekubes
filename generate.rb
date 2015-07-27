@@ -48,6 +48,9 @@ vmware_builder = {
   iso_checksum:      COREOS_ISO_CHECK.fetch(:checksum, ''),
   iso_checksum_type: COREOS_ISO_CHECK.fetch(:type, 'none'),
   ssh_username:      'core',
+  ssh_port:          22,
+  ssh_key_path:      'keys/coreos',
+  ssh_wait_timeout:  '8m',
   http_directory:    'bootstrap',
   vmx_data: {
     memsize: '1024',
@@ -98,3 +101,4 @@ File.open(OUTPUT_FILE, 'w') do |f|
 end
 
 STDERR.puts "Generated #{OUTPUT_FILE}"
+
