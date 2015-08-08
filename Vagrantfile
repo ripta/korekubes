@@ -12,9 +12,8 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = 'korekube-test'
-  #config.vm.box_url = 'packer_vmware-iso_vmware.box'
-  config.vm.box_url = 'coreos_production_vagrant_vmware_fusion-717.3.0.box'
+  config.vm.box = "korekube-test"
+  config.vm.box_url = "packer_vmware-iso_vmware.box"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -72,9 +71,8 @@ Vagrant.configure(2) do |config|
   # SHELL
 
   config.ssh.username = 'core'
-  #config.ssh.private_key_path = 'keys/coreos'
-  config.ssh.insert_key = false
+  config.ssh.private_key_path = 'keys/coreos'
 
-  #config.vm.provision :file, source: 'cloud-configs/user-data.yaml', destination: '/tmp/user-data'
-  #config.vm.provision :shell, inline: 'mv /tmp/user-data /var/lib/coreos-install/', privileged: true
+  config.vm.provision :file, source: 'cloud-configs/user-data.yaml', destination: '/tmp/user-data'
+  config.vm.provision :shell, inline: 'mv /tmp/user-data /var/lib/coreos-install/', privileged: true
 end
