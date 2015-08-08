@@ -3,6 +3,7 @@
 *.swp
 *.tar.gz
 .bundle
+.vagrant
 build
 korekube*.json
 packer_cache
