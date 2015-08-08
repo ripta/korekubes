@@ -72,4 +72,7 @@ Vagrant.configure(2) do |config|
 
   config.ssh.username = 'core'
   config.ssh.private_key_path = 'keys/coreos'
+
+  config.vm.provision :file, source: 'cloud-configs/user-data.yaml', destination: '/tmp/user-data'
+  config.vm.provision :shell, inline: 'mv /tmp/user-data /var/lib/coreos-install/', privileged: true
 end
