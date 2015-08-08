@@ -4,7 +4,7 @@
 *.tar.gz
 .bundle
 build
-korekube.json
+korekube*.json
 packer_cache
 vendor/cache
 vendor/ruby
