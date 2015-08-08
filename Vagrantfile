@@ -70,5 +70,6 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
 
+  config.ssh.username = 'core'
   config.ssh.private_key_path = 'keys/coreos'
 end
