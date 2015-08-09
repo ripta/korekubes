@@ -15,6 +15,10 @@ Vagrant.configure(2) do |config|
   config.vm.box = "korekube-test"
   config.vm.box_url = "packer_vmware-iso_vmware.box"
 
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -28,6 +32,7 @@ Vagrant.configure(2) do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network :private_network, ip: '172.17.8.101'
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -75,4 +80,5 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision :file, source: 'cloud-configs/user-data.yaml', destination: '/tmp/user-data'
   config.vm.provision :shell, inline: 'mv /tmp/user-data /var/lib/coreos-install/', privileged: true
+
 end
