@@ -4,6 +4,7 @@
 # of the configuration.
 AWS_INSTANCE_TYPE  = 't2.micro'
 AWS_REGION         = 'us-west-2'
+COREOS_CHANNEL     = 'stable'
 COREOS_VERSION     = '717.3.0'
 COREOS_ISO_CHECK   = {
   checksum: '39074d0233c48ca199b987a0944fdda2',
@@ -44,7 +45,7 @@ ami_builder = {
 
 vmware_builder = {
   type:              'vmware-iso',
-  iso_url:           "http://stable.release.core-os.net/amd64-usr/#{COREOS_VERSION}/coreos_production_iso_image.iso",
+  iso_url:           "http://#{COREOS_CHANNEL}.release.core-os.net/amd64-usr/#{COREOS_VERSION}/coreos_production_iso_image.iso",
   iso_checksum:      COREOS_ISO_CHECK.fetch(:checksum, ''),
   iso_checksum_type: COREOS_ISO_CHECK.fetch(:type, 'none'),
   ssh_username:      'core',
@@ -61,7 +62,7 @@ vmware_builder = {
     'sudo -i<enter>',
     'systemctl stop sshd.socket<enter>',
     'wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/bootstrap.yml<enter>',
-    "coreos-install -d /dev/sda -C stable -V #{COREOS_VERSION} -c bootstrap.yml<enter>",
+    "coreos-install -d /dev/sda -C #{COREOS_CHANNEL} -V #{COREOS_VERSION} -b http://{{ .HTTPIP }}:{{ .HTTPPort }}/coreos/#{COREOS_CHANNEL} -c bootstrap.yml<enter>",
     'reboot<enter>'
   ],
   shutdown_command:  'sudo shutdown -P now',

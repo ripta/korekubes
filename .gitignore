@@ -4,6 +4,7 @@
 *.tar.gz
 .bundle
 .vagrant
+bootstrap/coreos
 build
 korekube*.json
 packer_cache
