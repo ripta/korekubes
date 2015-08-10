@@ -68,7 +68,7 @@ end
 
 
 
-config = JSON.parse(File.read('config/mirrors.yml'))
+config = JSON.parse(File.read('config/mirrors.json'))
 
 config.each_pair do |mirror_name, mirror_config|
   mirror_config.fetch('versions').each_pair do |version, is_active|
