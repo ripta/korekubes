@@ -93,7 +93,17 @@ main_config = {
       ]
     }
   ],
-  'post-processors' => ['vagrant']
+  'post-processors' => [
+    {
+      type: 'vagrant',
+      output: "./builds/coreos-#{COREOS_VERSION}-{{.Provider}}.box",
+      vagrantfile_template: 'vagrant/Vagrantfile.tmpl',
+      include: [
+        'vagrant/change_host_name.rb',
+        'vagrant/configure_networks.rb'
+      ]
+    }
+  ]
 }
 
 File.open(OUTPUT_FILE, 'w') do |f|
@@ -101,4 +111,5 @@ File.open(OUTPUT_FILE, 'w') do |f|
 end
 
 STDERR.puts "Generated #{OUTPUT_FILE}"
+system "md5 -q #{OUTPUT_FILE}"
 
