@@ -99,6 +99,7 @@ main_config = {
       output: "./builds/coreos-#{COREOS_VERSION}-{{.Provider}}.box",
       vagrantfile_template: 'vagrant/Vagrantfile.tmpl',
       include: [
+        'vagrant/base_mac.rb',
         'vagrant/change_host_name.rb',
         'vagrant/configure_networks.rb'
       ]
