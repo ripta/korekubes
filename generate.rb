@@ -1,33 +1,27 @@
 #!/usr/bin/env ruby
 
-# This file generates korekube.json, and is intended to document the evolution
-# of the configuration.
-AWS_INSTANCE_TYPE  = 't2.micro'
-AWS_REGION         = 'us-west-2'
-COREOS_CHANNEL     = 'stable'
-COREOS_VERSION     = '717.3.0'
-COREOS_ISO_CHECK   = {
-  checksum: '39074d0233c48ca199b987a0944fdda2',
-  type:     'md5'
-}
-KUBERNETES_VERSION = '0.21.1'
-OUTPUT_FILE        = 'korekube.json'
+# This file generates the packer JSON file, and is intended to document the
+# evolution of the configuration. Base configuration changes should be made in
+# `config/generate.json`, whereas structural changes should be made here.
 
 require 'json'
 
+require_relative 'lib/meta_config'
 require_relative 'lib/coreos_images'
 require_relative 'lib/packer_template'
+
+meta = MetaConfig.new(JSON.parse(File.read('config/generate.json')))
 
 user_vars = {
   aws_access_key:    env_var('aws_access_key'),
   aws_secret_key:    env_var('aws_secret_key'),
-  aws_region:        AWS_REGION,
-  aws_ami_id:        coreos_ami(version: COREOS_VERSION, region: AWS_REGION),
+  aws_region:        meta.aws.region,
+  aws_ami_id:        coreos_ami(version: meta.coreos.version, region: meta.aws.region),
   aws_instance_type: 't2.micro',
-  coreos_version:    "v#{COREOS_VERSION}",
-  image_name:        "korekube (coreos-v#{COREOS_VERSION} kubernetes-v#{KUBERNETES_VERSION}) at {{timestamp}}",
-  kubernetes_url:    "https://bintray.com/artifact/download/ripta/generic/kubernetes-v#{KUBERNETES_VERSION}-1.0.tar.gz",
-  kubernetes_version:"v#{KUBERNETES_VERSION}"
+  coreos_version:    "v#{meta.coreos.version}",
+  image_name:        "korekube (coreos-v#{meta.coreos.version} kubernetes-v#{meta.kubernetes.version}) at {{timestamp}}",
+  kubernetes_url:    "https://bintray.com/artifact/download/ripta/generic/kubernetes-v#{meta.kubernetes.version}-1.0.tar.gz",
+  kubernetes_version:"v#{meta.kubernetes.version}"
 }
 
 ami_builder = {
@@ -45,9 +39,9 @@ ami_builder = {
 
 vmware_builder = {
   type:              'vmware-iso',
-  iso_url:           "http://#{COREOS_CHANNEL}.release.core-os.net/amd64-usr/#{COREOS_VERSION}/coreos_production_iso_image.iso",
-  iso_checksum:      COREOS_ISO_CHECK.fetch(:checksum, ''),
-  iso_checksum_type: COREOS_ISO_CHECK.fetch(:type, 'none'),
+  iso_url:           "http://#{meta.coreos.channel}.release.core-os.net/amd64-usr/#{meta.coreos.version}/coreos_production_iso_image.iso",
+  iso_checksum:      meta.coreos.iso_check.checksum,
+  iso_checksum_type: meta.coreos.iso_check.type,
   ssh_username:      'core',
   ssh_port:          22,
   ssh_key_path:      'keys/coreos',
@@ -62,7 +56,7 @@ vmware_builder = {
     'sudo -i<enter>',
     'systemctl stop sshd.socket<enter>',
     'wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/bootstrap.yml<enter>',
-    "coreos-install -d /dev/sda -C #{COREOS_CHANNEL} -V #{COREOS_VERSION} -b http://{{ .HTTPIP }}:{{ .HTTPPort }}/coreos/#{COREOS_CHANNEL} -c bootstrap.yml<enter>",
+    "coreos-install -d /dev/sda -C #{meta.coreos.channel} -V #{meta.coreos.version} -b http://{{ .HTTPIP }}:{{ .HTTPPort }}/coreos/#{meta.coreos.channel} -c bootstrap.yml<enter>",
     'reboot<enter>'
   ],
   shutdown_command:  'sudo shutdown -P now',
@@ -89,15 +83,15 @@ main_config = {
         'remote-scripts/services.sh'
       ],
       environment_vars: [
-        "COREOS_VERSION=#{COREOS_VERSION}",
-        "KUBERNETES_VERSION=#{KUBERNETES_VERSION}"
+        "COREOS_VERSION=#{meta.coreos.version}",
+        "KUBERNETES_VERSION=#{meta.kubernetes.version}"
       ]
     }
   ],
   'post-processors' => [
     {
       type: 'vagrant',
-      output: "./build/coreos-#{COREOS_VERSION}-{{.Provider}}.box",
+      output: "./build/coreos-#{meta.coreos.version}-{{.Provider}}.box",
       vagrantfile_template: 'vagrant/Vagrantfile.tmpl',
       include: [
         'vagrant/base_mac.rb',
@@ -108,10 +102,10 @@ main_config = {
   ]
 }
 
-File.open(OUTPUT_FILE, 'w') do |f|
+File.open(meta.output_file, 'w') do |f|
   f.puts JSON.pretty_generate(main_config)
 end
 
-STDERR.puts "Generated #{OUTPUT_FILE}"
-system "md5 -q #{OUTPUT_FILE}"
+STDERR.puts "Generated #{meta.output_file}"
+system "md5 -q #{meta.output_file}"
 

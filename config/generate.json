@@ -1,0 +1,18 @@
+{
+    "aws": {
+        "instance_type": "t2.micro",
+        "region": "us-west-2"
+    },
+    "coreos": {
+        "channel": "stable",
+        "version": "717.3.0",
+        "iso_check": {
+            "checksum": "39074d0233c48ca199b987a0944fdda2",
+            "type": "md5"
+        }
+    },
+    "kubernetes": {
+        "version": "0.21.1"
+    },
+    "output_file": "korekube.json"
+}
