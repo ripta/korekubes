@@ -4,8 +4,8 @@
     "artifacts": [
         "coreos_production_image.bin.bz2"
     ],
-    "versions": [
-        "717.3.0",
-        "723.3.0"
-    ]
+    "versions": {
+        "717.3.0": true,
+        "723.3.0": false
+    }
 }

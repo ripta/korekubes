@@ -67,7 +67,8 @@ def verify!(config, version, artifact, sig_artifact)
   end
 end
 
-config.fetch('versions').each do |version|
+config.fetch('versions').each_pair do |version, is_active|
+  next unless is_active
   config.fetch('artifacts').each do |artifact|
     download(config, version, artifact)
 
