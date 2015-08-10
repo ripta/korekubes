@@ -74,7 +74,6 @@ main_config = {
     ami_builder,
     vmware_builder
   ],
-  'post-processors' => ['vagrant'],
   provisioners: [
     {
       type: 'file',
@@ -93,7 +92,8 @@ main_config = {
         "KUBERNETES_VERSION=#{KUBERNETES_VERSION}"
       ]
     }
-  ]
+  ],
+  'post-processors' => ['vagrant']
 }
 
 File.open(OUTPUT_FILE, 'w') do |f|
