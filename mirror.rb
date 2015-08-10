@@ -3,7 +3,7 @@
 require 'fileutils'
 require 'json'
 
-config = JSON.parse(File.read('config/images.yml'))
+config = JSON.parse(File.read('config/mirrors.yml'))
 
 def build_file(config, version, artifact)
   target_dir = config.fetch('target_dir')
