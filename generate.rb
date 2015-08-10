@@ -96,7 +96,7 @@ main_config = {
   'post-processors' => [
     {
       type: 'vagrant',
-      output: "./builds/coreos-#{COREOS_VERSION}-{{.Provider}}.box",
+      output: "./build/coreos-#{COREOS_VERSION}-{{.Provider}}.box",
       vagrantfile_template: 'vagrant/Vagrantfile.tmpl',
       include: [
         'vagrant/base_mac.rb',
