@@ -3,7 +3,6 @@
 require 'fileutils'
 require 'json'
 
-config = JSON.parse(File.read('config/mirrors.yml'))
 
 def build_file(config, version, artifact)
   target_dir = config.fetch('target_dir')
@@ -66,6 +65,10 @@ def verify!(config, version, artifact, sig_artifact)
     abort "#{artifact_file} did not pass the signature verification"
   end
 end
+
+
+
+config = JSON.parse(File.read('config/mirrors.yml'))
 
 config.each_pair do |mirror_name, mirror_config|
   mirror_config.fetch('versions').each_pair do |version, is_active|
