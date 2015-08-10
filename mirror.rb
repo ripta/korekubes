@@ -67,15 +67,17 @@ def verify!(config, version, artifact, sig_artifact)
   end
 end
 
-config.fetch('versions').each_pair do |version, is_active|
-  next unless is_active
-  config.fetch('artifacts').each do |artifact|
-    download(config, version, artifact)
-
-    sig_artifact = "#{artifact}.DIGESTS"
-    download(config, version, sig_artifact)
-
-    verify!(config, version, artifact, sig_artifact)
+config.each_pair do |mirror_name, mirror_config|
+  mirror_config.fetch('versions').each_pair do |version, is_active|
+    next unless is_active
+    mirror_config.fetch('artifacts').each do |artifact|
+      download(mirror_config, version, artifact)
+  
+      sig_artifact = "#{artifact}.DIGESTS"
+      download(mirror_config, version, sig_artifact)
+  
+      verify!(mirror_config, version, artifact, sig_artifact)
+    end
   end
 end
 
