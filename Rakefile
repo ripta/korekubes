@@ -1,9 +1,14 @@
 
 task :default => [:build]
 
-desc 'Build AMI on EC2'
+desc 'Build all images'
 task :build => [:generate] do
   sh "packer build -var 'vpc_id=#{ENV['VPC_ID']}' -var 'subnet_id=#{ENV['SUBNET_ID']}' korekube.json"
+end
+
+desc 'Build only vagrant images'
+task :build_vagrant => [:generate] do
+  sh "packer build -only vmware-iso korekube.json"
 end
 
 desc 'Generate packer JSON'
