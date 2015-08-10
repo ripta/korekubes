@@ -10,8 +10,10 @@ require_relative 'lib/meta_config'
 require_relative 'lib/coreos_images'
 require_relative 'lib/packer_template'
 
+# Load meta configuration
 meta = MetaConfig.new(JSON.parse(File.read('config/generate.json')))
 
+# User variables available in user_var() calls later on
 user_vars = {
   aws_access_key:    env_var('aws_access_key'),
   aws_secret_key:    env_var('aws_secret_key'),
@@ -24,6 +26,7 @@ user_vars = {
   kubernetes_version:"v#{meta.kubernetes.version}"
 }
 
+# AMI Builder options
 ami_builder = {
   type:          'amazon-ebs',
   access_key:    user_var('aws_access_key'),
@@ -37,6 +40,7 @@ ami_builder = {
   subnet_id:     user_var('subnet_id')
 }
 
+# VMWare ISO Builder options
 vmware_builder = {
   type:              'vmware-iso',
   iso_url:           "http://#{meta.coreos.channel}.release.core-os.net/amd64-usr/#{meta.coreos.version}/coreos_production_iso_image.iso",
@@ -55,14 +59,15 @@ vmware_builder = {
   boot_command: [
     'sudo -i<enter>',
     'systemctl stop sshd.socket<enter>',
-    'wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/bootstrap.yml<enter>',
-    "coreos-install -d /dev/sda -C #{meta.coreos.channel} -V #{meta.coreos.version} -b http://{{ .HTTPIP }}:{{ .HTTPPort }}/coreos/#{meta.coreos.channel} -c bootstrap.yml<enter>",
+    "wget http://#{http_ip}:#{http_port}/bootstrap.yml<enter>",
+    "coreos-install -d /dev/sda -C #{meta.coreos.channel} -V #{meta.coreos.version} -b http://#{http_ip}:#{http_port}/coreos/#{meta.coreos.channel} -c bootstrap.yml<enter>",
     'reboot<enter>'
   ],
   shutdown_command:  'sudo shutdown -P now',
   skip_compaction:   false
 }
 
+# Main configuration that unites everything above
 main_config = {
   variables: user_vars,
   builders:  [
@@ -102,6 +107,7 @@ main_config = {
   ]
 }
 
+# Generate the file and print the MD5 hash
 File.open(meta.output_file, 'w') do |f|
   f.puts JSON.pretty_generate(main_config)
 end

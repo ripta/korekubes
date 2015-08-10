@@ -6,6 +6,14 @@ def env_var(name)
   var(:env, name.to_s.upcase)
 end
 
+def http_ip
+  var('.HTTPIP')
+end
+
+def http_port
+  var('.HTTPPort')
+end
+
 # "`name`"
 def quoted(name)
   "`#{name}`"
